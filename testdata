@@ -1,0 +1,213 @@
+insert into usertype(idUserType, userType)
+values 
+(1111, 'Student'),
+(1112, 'Teacher'),
+(1113, 'Researcher'),
+(1114, 'Admin'),
+(1115, 'Manager');
+
+INSERT INTO USER (iduser, lastname,firstname,phonenumber,email, UserType_idUserType) 
+VALUES 
+(3762,'Butt','James','073-981 87 21','JaBut@kth.nu',1111 ),
+(4448,'Darakjy','Josephine','073-981 87 22','JoDar@kth.nu',1111 ),
+(1156,'Venere','Art','073-981 87 23','ArVen@kth.nu',1111 ),
+(1267,'Paprocki','Lenna','073-981 87 24','LePap@kth.nu',1111 ),
+(277,'Foller','Donette','073-981 87 25','DoFol@kth.nu',1111 ),
+(1153,'Morasca','Simona','073-981 87 26','SiMor@kth.nu',1112 ),
+(4804,'Tollner','Mitsue','073-981 87 27','MiTol@kth.nu',1112 ),
+ (2464,'Dilliard','Leota','073-981 87 28','LeDil@kth.nu',1112),
+ (4743,'Wieser','Sage','073-981 87 29','SaWie@kth.nu',1112),
+(1279,'Marrier','Kris','073-981 87 20','KrMar@kth.nu',1112),
+ (2722,'Amigon','Minna','073-981 87 15','MiAmi@kth.nu',1113),
+(2629,'Maclead','Abel','073-981 87 35','AbMac@kth.nu',1113),
+ (2011,'Caldarera','Kiley','073-981 87 45','KiCal@kth.nu',1113),
+ (1116,'Ruta','Graciela','073-981 87 55','GrRut@kth.nu',1113),
+(3297,'Albares','Cammy','073-981 87 65','CaAlb@kth.nu',1113),
+(832,'Poquette','Mattie','073-981 87 75','MaPoq@kth.nu', 1114),
+ (1861,'Garufi','Meaghan','073-981 87 85','MeGar@kth.nu', 1114),
+ (3687,'Rim','Gladys','073-981 87 95','GlRim@kth.nu', 1114),
+ (353,'Whobrey','Yuki','073-981 87 05','YuWho@kth.nu', 1114),
+ (3907,'Flosi','Fletcher','073-981 11 25','FlFlo@kth.nu', 1115);
+ 
+ 
+ alter table item modify isbn char(30);
+ 
+insert into item (idItem, numberInStock, title, isbn, totalStock, publisher)
+values 
+(90188,4,'Fundamentals of Wavelets',967084702250343,4,'Wiley'),
+(60859,3,'Data Smart',967084702250341,4,'Wiley'),
+(47657,3,'God Created the Integers',967084702250342,4,'Wiley'),
+(27181,0,'Superfreakonomics',967084702250345,1,'Wiley'),
+(21150,3,'Orientalism',967084702250344,4,'Wiley'),
+(38205,2,'Nature of Statistical Learning Theory',967084702250346,2,'HarperCollins'),
+(58661,2,'Integration of the Indian States',967084702250347,2,'HarperCollins'),
+(18302,1,'Drunkards Walk',967084702250348,1,'HarperCollins'),
+(73129,1,'Image Processing & Mathematical Morphology',967084702250349,1,'HarperCollins'),
+(47711,1,'How to Think Like Sherlock Holmes',967084702250340,2,'HarperCollins'),
+(1801,1,'Data Scientists at Work',167084702250343,1,'HarperCollins'),
+(40653,3,'Slaughterhouse Five',267084702250343,3,'HarperCollins'),
+(75419,2,'Birth of a Theorem',367084702250343,3,'HarperCollins'),
+(80760,1,'Structure & Interpretation of Computer Programs',467084702250343,2,'CRC'),
+(38768,1,'Age of Wrath',567084702250343,1,'CRC'),
+(56110,1,'Trial',667084702250343,1,'Springer'),
+(97153,0,'Statistical Decision Theory',767084702250343,1,'Springer'),
+(23646,1,'Data Mining Handbook',867084702250343,1,'Springer'),
+(34102,3,'New Machiavelli',917084702250343,5,'Springer'),
+(67114,1,'Physics & Philosophy',962084702250343,1,'Springer'),
+(8951,1,'Making Software',937084702250343,2,'Springer');
+
+
+insert into item_has_creator ( Item_idItem, firstName, lastName)
+values
+(90188,'Jaideva', 'Goswami'),
+(60859,'John', 'Foreman'),
+(47657,'Stephen', 'Hawking'),
+(27181,'Stephen', 'Dubner'),
+(21150,'Edward', 'Said'),
+(38205,'Vladimir', 'Vapnik'),
+(58661,'VP', 'Menon'),
+(18302,'Leonard', 'Mlodinow'),
+(73129,'Frank', 'Shih'),
+(47711,'Maria', 'Konnikova'),
+(1801,'Sebastian', 'Gutierrez'),
+(40653,'Kurt', 'Vonnegut'),
+(75419,'Cedric', 'Villani'),
+(80760,'Gerald', 'Sussman'),
+(38768,'Abraham', 'Eraly'),
+(56110,'Frank', 'Kafka'),
+(97153,'John', 'Pratt'),
+(23646,'John', 'Pratt'),
+(34102,'John', 'Pratt'),
+(67114,'Frank', 'Kafka'),
+(8951,'Frank', 'Kafka');
+
+
+
+insert into keyword (idkeyword, keyword)
+values
+(2112, 'databas'),
+(2110, 'sql'),
+(2111, 'mysql'),
+(2113, 'language'),
+(2114, 'sport'),
+(2116, 'art'),
+(2115, 'java'),
+(2117, 'programmering'),
+(2118, 'makeup'),
+(2119, 'sweden'),
+(2102, 'europ'),
+(2122, 'Matte'),
+(2132, 'kemi'),
+(2142, 'ekonomi'),
+(2152, 'animals');
+
+insert into itemkeyword (idItemKeyword, Item_idItem, Keyword_idKeyword)
+values
+(21121, 90188, 2112 ),
+(21101, 90188, 2110 ),
+(21111, 90188, 2113 ),
+(21131, 60859, 2113 ),
+(21141, 47657, 2116 ),
+(21161, 27181, 2116 ),
+(21151, 21150, 2115 ),
+(21171, 38205, 2117 ),
+(21181, 58661, 2119 ),
+(21191, 58661, 2102 ),
+(21021, 58661, 2132 ),
+(21221, 18302, 2132),
+(21321, 73129, 2142),
+(21421, 47711,2152),
+(21521, 1801, 2152);
+
+insert into location (idLocation, library, shelf, number, letter)
+values
+(211211, 'Stockholm',901881, 21120, 'A' ),
+(211011, 'Lulea', 901832, 21100, 'AB'  ),
+(211111, 'Stockholm', 901881, 21130, 'B'  ),
+(211311, 'Stockholm', 608591, 21130, 'C'  ),
+(211411, 'Stockholm', 476571, 21160, 'A'  ),
+(211611, 'Stockholm', 271811, 21160, 'AB'  ),
+(211511, 'Lulea', 211501, 21150, 'A'  ),
+(211711, 'Uppsala', 382013, 21170, 'A'  ),
+(211811, 'Uppsala', 586312, 21190, 'D'  ),
+(211911, 'Uppsala', 586612, 21020, 'A'  ),
+(210211, 'Uppsala', 586611, 21320, 'FE'  ),
+(212211, 'Lulea', 183021, 21320, 'W' ),
+(213211, 'Stockholm', 731291, 21420, 'Z' ),
+(214211, 'Lulea', 477111, 21520, 'AB' ),
+(215211, 'Stockholm', 180110, 21520, 'L' );
+
+
+insert into inventory (idBarcode, Items_idItems, Location_idLocation, category)
+values 
+(901881,90188, 211211 ,'Standard'),
+(901882,90188, 211211 ,'Standard'),
+(901883,90188, 211211 ,'Standard'),
+(901884,90188, 211211 ,'Standard'),
+(608591,60859, 211211,'Course literature'),
+(608592,60859, 211211,'Course literature'),
+(608593,60859, 211211,'Course literature'),
+(608594,60859, 211211,'Course literature'),
+(476571, 47657, 211111, 'Reference'),
+(476572, 47657, 211111, 'Reference'),
+(476573, 47657, 211111, 'Reference'),
+(476574, 47657, 211111, 'Reference'),
+(271811, 27181, 211311,'DVD'),
+(211501, 21150, 211311,'DVD'),
+(211502, 21150, 211311,'DVD'),
+(211503, 21150, 211311,'DVD'),
+(211504, 21150, 211311,'DVD'),
+(382051, 38205,211411,'DVD'),
+(382052, 38205,211411,'DVD'),
+(586611, 58661, 211611,'DVD'),
+(586612, 58661, 211611,'DVD'),
+(183021, 18302,211511,'Reference'),
+(731291, 73129, 211711,'Reference'),
+(477111, 47711, 211811,'Reference'),
+(477112, 47711, 211811,'Reference'),
+(18011, 1801, 211911,'Reference'),
+(406531, 40653, 210211, 'Standard'),
+(406532, 40653, 210211, 'Standard'),
+(406533, 40653, 210211, 'Standard'),
+(754191, 75419,212211,'Standard'),
+(754192, 75419,212211,'Standard'),
+(754193, 75419,212211,'Standard'),
+(807601, 80760, 212211,'Standard'),
+(807602, 80760, 212211,'Standard'),
+(387681, 38768, 212211, 'Standard'),
+(561101, 56110, 214211,'Standard'),
+(971531, 97153, 214211,'Standard'),
+(236461, 23646, 213211,'Course literature'),
+(341021, 34102, 214211,'Course literature'),
+(341022, 34102, 214211,'Course literature'),
+(341023, 34102, 214211,'Course literature'),
+(341024, 34102, 214211,'Course literature'),
+(341025, 34102, 214211,'Course literature'),
+(671141, 67114, 214211,'Course literature'),
+(89511, 8951, 215211,'Course literature'),
+(89512, 8951, 215211,'Course literature');
+
+
+insert into loan (idLoan, User_idUser, Inventory_idBarcode, loanDate, expiryDate)
+values 
+(1608591,3762, 608591,'2021-01-02','2022-02-02'),
+(1271811, 4448, 271811,'2022-01-19','2022-02-03'),
+(1211504, 1156, 211504,'2022-01-15','2022-02-01' ),
+(1754193, 1153,754193,'2022-02-01','2022-04-01'),
+(1807601, 4804, 807601,'2022-01-15','2022-03-15'),
+(1971531, 1267, 971531,'2022-01-05','2022-03-05'),
+(1341021, 1153, 341021,'2022-01-16','2022-02-16'),
+(1341022, 2629, 341022,'2022-01-21','2022-02-21'),
+(1671141, 2629, 671141,'2022-01-06','2022-02-06'),
+(189511, 2011, 89511,'2022-01-01','2022-02-01');
+
+
+ALTER TABLE loanreturn
+DROP INDEX returnDate_UNIQUE;
+
+insert into loanreturn ( Loan_idLoan, returnDate) 
+values 
+(1608591, '2022-01-29'),
+(1807601, '2022-02-02'),
+(1341021, '2022-01-23'),
+(1671141, '2022-02-02');
