@@ -1,0 +1,504 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS,
+FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE,
+SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+-- -----------------------------------------------------
+-- Schema D0005N
+-- -----------------------------------------------------
+-- Database2
+-- -----------------------------------------------------
+-- Schema D0005N
+--
+-- Database2
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `D0005N` DEFAULT CHARACTER SET utf8 ;
+USE `D0005N` ;
+-- -----------------------------------------------------
+-- Table `D0005N`.`Item`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`Item` (
+ `idItem` INT NOT NULL,
+ `numberInStock` SMALLINT(20) NOT NULL,
+ `title` VARCHAR(75) NOT NULL,
+ `isbn` INT(13) NOT NULL,
+ `totalStock` SMALLINT(20) NOT NULL,
+ `publisher` VARCHAR(45) NOT NULL,
+ PRIMARY KEY (`idItem`),
+ UNIQUE INDEX `isbn_UNIQUE` (`isbn` ASC))
+ENGINE = InnoDB;
+-- -----------------------------------------------------
+-- Table `D0005N`.`Userstatus`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`Userstatus` (
+ `idUserType` INT NOT NULL,
+ `userType` VARCHAR(15) NOT NULL,
+ PRIMARY KEY (`idUserType`),
+ UNIQUE INDEX `userType_UNIQUE` (`userType` ASC))
+ENGINE = InnoDB;
+-- -----------------------------------------------------
+-- Table `D0005N`.`User`
+32
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`User` (
+ `idUser` INT NOT NULL,
+ `lastName` VARCHAR(20) NOT NULL,
+ `firstName` VARCHAR(20) NOT NULL,
+ `phoneNumber` VARCHAR(13) NOT NULL,
+ `email` VARCHAR(45) NOT NULL,
+ `UserType_idUserType` INT NOT NULL,
+ PRIMARY KEY (`idUser`),
+ UNIQUE INDEX `phoneNumber_UNIQUE` (`phoneNumber` ASC),
+ INDEX `fk_User_UserType1_idx` (`UserType_idUserType` ASC),
+ CONSTRAINT `fk_User_UserType1`
+ FOREIGN KEY (`UserType_idUserType`)
+ REFERENCES `D0005N`.`UserType` (`idUserType`)
+ ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`Location`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`Location` (
+ `idLocation` INT NOT NULL,
+ `library` VARCHAR(45) NOT NULL,
+ `shelf` INT NOT NULL,
+ `number` INT NOT NULL,
+ `letter` VARCHAR(5) NOT NULL,
+ PRIMARY KEY (`idLocation`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`Inventory`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`Inventory` (
+ `idBarcode` INT NOT NULL,
+ `Items_idItems` INT NOT NULL,
+ `Location_idLocation` INT NOT NULL,
+ `category` VARCHAR(30) NOT NULL,
+ PRIMARY KEY (`idBarcode`),
+ INDEX `fk_Inventory_Items1_idx` (`Items_idItems` ASC),
+ INDEX `fk_Inventory_Location1_idx` (`Location_idLocation` ASC),
+ CONSTRAINT `fk_Inventory_Items1`
+ FOREIGN KEY (`Items_idItems`)
+ REFERENCES `D0005N`.`Item` (`idItem`)
+ ON UPDATE CASCADE,
+ CONSTRAINT `fk_Inventory_Location1`
+ FOREIGN KEY (`Location_idLocation`)
+ REFERENCES `D0005N`.`Location` (`idLocation`)
+ ON UPDATE CASCADE)ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`Loan`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`Loan` (
+ `idLoan` INT NOT NULL,
+ `User_idUser` INT NOT NULL,
+ `Inventory_idBarcode` INT NOT NULL,
+ `loanDate` DATETIME NOT NULL,
+ `expiryDate` DATETIME NOT NULL,
+ PRIMARY KEY (`idLoan`),
+ INDEX `fk_Loan_User1_idx` (`User_idUser` ASC),
+ INDEX `fk_Loan_Inventory1_idx` (`Inventory_idBarcode` ASC),
+ CONSTRAINT `fk_Loan_Inventory1`
+ FOREIGN KEY (`Inventory_idBarcode`)
+ REFERENCES `D0005N`.`Inventory` (`idBarcode`)
+ ON UPDATE CASCADE,
+ CONSTRAINT `fk_Loan_User1`
+ FOREIGN KEY (`User_idUser`)
+ REFERENCES `D0005N`.`User` (`idUser`)
+ ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`LoanReturn`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`LoanReturn` (
+ `Loan_idLoan` INT NOT NULL,
+ `returnDate` TIMESTAMP NOT NULL,
+ INDEX `fk_LoanReturn_Loan1_idx` (`Loan_idLoan` ASC),
+ UNIQUE INDEX `returnDate_UNIQUE` (`returnDate` ASC),
+ PRIMARY KEY (`Loan_idLoan`),
+ CONSTRAINT `fk_LoanReturn_Loan1`
+ FOREIGN KEY (`Loan_idLoan`)
+ REFERENCES `D0005N`.`Loan` (`idLoan`)
+ ON DELETE NO ACTION
+ ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+-- -----------------------------------------------------
+-- Table `D0005N`.`Location`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`Location` (
+ `idLocation` INT NOT NULL,
+ `library` VARCHAR(45) NOT NULL,
+ `shelf` INT NOT NULL,
+ `number` INT NOT NULL,
+ `letter` VARCHAR(5) NOT NULL,
+ PRIMARY KEY (`idLocation`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`Inventory`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`Inventory` (
+ `idBarcode` INT NOT NULL,
+ `Items_idItems` INT NOT NULL,
+ `Location_idLocation` INT NOT NULL,
+ `category` VARCHAR(30) NOT NULL,
+ PRIMARY KEY (`idBarcode`),
+ INDEX `fk_Inventory_Items1_idx` (`Items_idItems` ASC),
+ INDEX `fk_Inventory_Location1_idx` (`Location_idLocation` ASC),
+ CONSTRAINT `fk_Inventory_Items1`
+ FOREIGN KEY (`Items_idItems`)
+ REFERENCES `D0005N`.`Item` (`idItem`)
+ ON UPDATE CASCADE,
+ CONSTRAINT `fk_Inventory_Location1`
+ FOREIGN KEY (`Location_idLocation`)
+ REFERENCES `D0005N`.`Location` (`idLocation`)
+ ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`Keyword`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`Keyword` (
+ `idKeyword` INT NOT NULL,
+ `keyword` VARCHAR(15) NOT NULL,
+ PRIMARY KEY (`idKeyword`),
+ UNIQUE INDEX `keyword_UNIQUE` (`keyword` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`ItemKeyword`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`ItemKeyword` (
+ `idItemKeyword` INT NOT NULL,
+ `Item_idItem` INT NOT NULL,
+ `Keyword_idKeyword` INT NULL DEFAULT NULL,
+ PRIMARY KEY (`idItemKeyword`, `Item_idItem`),
+ INDEX `fk_ItemKeyword_Item1_idx` (`Item_idItem` ASC),
+ INDEX `fk_ItemKeyword_Keyword1_idx` (`Keyword_idKeyword` ASC),CONSTRAINT `fk_ItemKeyword_Item1`
+ FOREIGN KEY (`Item_idItem`)
+ REFERENCES `D0005N`.`Item` (`idItem`)
+ ON DELETE CASCADE
+ ON UPDATE CASCADE,
+ CONSTRAINT `fk_ItemKeyword_Keyword1`
+ FOREIGN KEY (`Keyword_idKeyword`)
+ REFERENCES `D0005N`.`Keyword` (`idKeyword`)
+ ON DELETE SET NULL
+ ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`Reservation`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`Reservation` (
+ `idReservation` INT NOT NULL,
+ `dateOfReservation` TIMESTAMP NOT NULL,
+ `pickUpAvailDate` DATETIME NULL DEFAULT NULL,
+ `pickUpExpDate` DATETIME NULL DEFAULT NULL,
+ PRIMARY KEY (`idReservation`),
+ UNIQUE INDEX `dateOfReservation_UNIQUE` (`dateOfReservation` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`UserType`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`UserType` (
+ `idUserType` INT NOT NULL,
+ `userType` VARCHAR(15) NOT NULL,
+ PRIMARY KEY (`idUserType`),
+ UNIQUE INDEX `userType_UNIQUE` (`userType` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`User`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`User` (
+ `idUser` INT NOT NULL,
+ `lastName` VARCHAR(20) NOT NULL,
+ `firstName` VARCHAR(20) NOT NULL,
+ `phoneNumber` VARCHAR(13) NOT NULL,
+ `email` VARCHAR(45) NOT NULL,
+ `UserType_idUserType` INT NOT NULL,
+ PRIMARY KEY (`idUser`),
+ UNIQUE INDEX `phoneNumber_UNIQUE` (`phoneNumber` ASC),
+ INDEX `fk_User_UserType1_idx` (`UserType_idUserType` ASC),
+ CONSTRAINT `fk_User_UserType1`
+ FOREIGN KEY (`UserType_idUserType`)
+ REFERENCES `D0005N`.`UserType` (`idUserType`)
+ ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`ItemReservation`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`ItemReservation` (
+ `idItemReservation` INT NOT NULL,
+ `Items_idItems` INT NOT NULL,
+ `User_idUser` INT NOT NULL,
+ `Reservation_idReservation` INT NOT NULL,
+ PRIMARY KEY (`idItemReservation`),
+ INDEX `fk_ItemReservation_Items1_idx` (`Items_idItems` ASC),
+ INDEX `fk_ItemReservation_User1_idx` (`User_idUser` ASC),
+ INDEX `fk_ItemReservation_Reservation1_idx` (`Reservation_idReservation` ASC),
+ CONSTRAINT `fk_ItemReservation_Items1`
+ FOREIGN KEY (`Items_idItems`)
+ REFERENCES `D0005N`.`Item` (`idItem`)
+ ON UPDATE CASCADE,
+ CONSTRAINT `fk_ItemReservation_Reservation1`
+ FOREIGN KEY (`Reservation_idReservation`)
+ REFERENCES `D0005N`.`Reservation` (`idReservation`)
+ ON DELETE CASCADE
+ ON UPDATE CASCADE,
+ CONSTRAINT `fk_ItemReservation_User1`
+ FOREIGN KEY (`User_idUser`)
+ REFERENCES `D0005N`.`User` (`idUser`)
+ ON DELETE CASCADE
+ ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`Item_Has_Creator`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`Item_Has_Creator` (
+ `Item_idItem` INT NOT NULL,
+ `firstName` VARCHAR(20) NOT NULL,
+ `lastName` VARCHAR(30) NOT NULL,
+ INDEX `fk_Item_Has_Creator_Item1_idx` (`Item_idItem` ASC),
+ CONSTRAINT `fk_Item_Has_Creator_Item1`
+ FOREIGN KEY (`Item_idItem`)
+ REFERENCES `D0005N`.`Item` (`idItem`)
+ ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`Loan`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`Loan` (
+ `idLoan` INT NOT NULL,
+ `User_idUser` INT NOT NULL,
+ `Inventory_idBarcode` INT NOT NULL,
+ `loanDate` DATETIME NOT NULL,
+ `expiryDate` DATETIME NOT NULL,
+ PRIMARY KEY (`idLoan`),
+ INDEX `fk_Loan_User1_idx` (`User_idUser` ASC),
+ INDEX `fk_Loan_Inventory1_idx` (`Inventory_idBarcode` ASC),
+ CONSTRAINT `fk_Loan_Inventory1`
+ FOREIGN KEY (`Inventory_idBarcode`)
+ REFERENCES `D0005N`.`Inventory` (`idBarcode`)
+ ON UPDATE CASCADE,
+ CONSTRAINT `fk_Loan_User1`
+ FOREIGN KEY (`User_idUser`)
+ REFERENCES `D0005N`.`User` (`idUser`)
+ ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`item`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`item` (
+ `idItem` INT NOT NULL,
+ `numberInStock` SMALLINT NOT NULL,
+ `title` VARCHAR(75) NOT NULL,
+ `isbn` CHAR(30) NULL DEFAULT NULL,
+ `totalStock` SMALLINT NOT NULL,
+ `publisher` VARCHAR(45) NOT NULL,
+ PRIMARY KEY (`idItem`),
+ UNIQUE INDEX `isbn_UNIQUE` (`isbn` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+-- -----------------------------------------------------
+-- Table `D0005N`.`loanreturn`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `D0005N`.`loanreturn` (
+ `Loan_idLoan` INT NOT NULL,
+ `returnDate` TIMESTAMP NOT NULL,
+ PRIMARY KEY (`Loan_idLoan`),
+ INDEX `fk_LoanReturn_Loan1_idx` (`Loan_idLoan` ASC),
+ CONSTRAINT `fk_LoanReturn_Loan1`FOREIGN KEY (`Loan_idLoan`)
+ REFERENCES `D0005N`.`Loan` (`idLoan`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+USE `D0005N` ;
+-- -----------------------------------------------------
+-- procedure CreateLoan
+-- -----------------------------------------------------
+DELIMITER $$
+USE `D0005N`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateLoan`(in idLoan_ int, User_idUser_
+int, Inventory_idBarcode_ int, loanDate_ datetime, expiryDate_ datetime)
+BEGIN
+ insert into Loan(idLoan, User_idUser, Inventory_idBarcode,loanDate,expiryDate)
+ values( idLoan_, User_idUser_ , Inventory_idBarcode_ , loanDate_ , expiryDate_ );
+END$$
+DELIMITER ;
+-- -----------------------------------------------------
+-- procedure ReminderTest
+-- -----------------------------------------------------
+DELIMITER $$
+USE `D0005N`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ReminderTest`()
+BEGIN
+
+
+
+
+
+ SELECT idLoan, User_idUser, Inventory_idBarcode, loanDate, expiryDate,
+DATEDIFF(curDate(), expiryDate) AS 'Days overdue'
+ FROM Loan
+ WHERE idLoan NOT IN (SELECT Loan_idLoan FROM Loanreturn);
+
+ /*
+ The below statement can be added to remove negative days overdue but we wanted to keep it
+for clarity to show that we understand the concept of the function.
+
+ AND expiryDate < curDate();
+
+ Here we could implement some sort of notification and fine feature, connected to a bank and
+their user profiles. An example is found below. We could connect it to external programs
+ or create a backup database that would handle and send out all the notifications to the users
+once a change/update has taken place in the original database or once an event
+ has been triggered.
+
+ IF curDate() >= expiryDate THEN sendReminderEmail();
+ IF currDate() = DATE_ADD(expiryDate, INTERVAL 14 DAY) THEN sendFine();
+
+ */
+
+ END$$
+DELIMITER ;
+-- -----------------------------------------------------
+-- procedure Search
+-- -----------------------------------------------------
+DELIMITER $$
+USE `D0005N`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Search`(in Items_idItems__ int)
+BEGIN
+DECLARE actualStock_ int;
+DECLARE Items_idItems_ int;
+SET Items_idItems_ = Items_idItems__;
+SET actualStock_ = (Select Count(Items_idItems) As 'Number in Stock' From Inventory LEFT join
+Item ON Inventory.Items_idItems = Item.idItem
+WHERE Items_idItems = Items_idItems_ AND idBarcode NOT IN (SELECT Inventory_idBarcode
+FROM Loan WHERE idLoan NOT IN (SELECT Loan_idLoan FROM LoanReturn) Group by
+Items_idItems));
+SELECT idItem, title, isbn, publisher, actualStock_ as numberInStock
+FROM Item
+WHERE idItem = Items_idItems_;
+END$$
+DELIMITER ;
+-- -----------------------------------------------------
+-- procedure SearchByIsbn
+-- -----------------------------------------------------
+DELIMITER $$
+USE `D0005N`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SearchByIsbn`(in isbn__ char(30))
+BEGIN
+DECLARE actualStock_ int;
+DECLARE isbn_ char(30);
+SET isbn_ = isbn__;
+SET actualStock_ = (Select Count(Items_idItems) As 'Number in Stock' From Inventory LEFT join
+Item ON Inventory.Items_idItems = Item.idItem
+WHERE isbn = isbn_ AND idBarcode NOT IN (SELECT Inventory_idBarcode FROM Loan WHERE
+idLoan NOT IN (SELECT Loan_idLoan FROM LoanReturn) Group by isbn));
+SELECT idItem, title, isbn, publisher, actualStock_ as numberInStock
+FROM Item
+WHERE isbn = isbn_;
+END$$
+DELIMITER ;
+-- -----------------------------------------------------
+-- procedure SearchByPublisher
+-- -----------------------------------------------------
+DELIMITER $$
+USE `D0005N`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SearchByPublisher`(in publisher__
+varchar(45))
+BEGIN
+DECLARE actualStock_ int;
+DECLARE publisher_ varchar(45);
+SET publisher_ = publisher__;
+SET actualStock_ = (Select Count(Items_idItems) As 'Number in Stock' From Inventory LEFT join
+Item ON Inventory.Items_idItems = Item.idItem
+WHERE publisher = publisher_ AND idBarcode NOT IN (SELECT Inventory_idBarcode FROM
+Loan WHERE idLoan NOT IN (SELECT Loan_idLoan FROM LoanReturn) Group by publisher));
+SELECT idItem, title, isbn, publisher, actualStock_ as numberInStock
+FROM Item
+WHERE publisher = publisher_;
+END$$
+DELIMITER ;
+-- -----------------------------------------------------
+-- procedure SearchByTitle
+-- -----------------------------------------------------
+DELIMITER $$
+USE `D0005N`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SearchByTitle`(in title__ varchar(75))
+BEGIN
+DECLARE actualStock_ int default 0;
+Declare title_ varchar(75);
+set title_ = title__;
+SET actualStock_ = (Select Count(Items_idItems) As 'Number in Stock' From Inventory LEFT join
+Item ON Inventory.Items_idItems = Item.idItem
+WHERE title = title_ AND idBarcode NOT IN (SELECT Inventory_idBarcode FROM Loan WHERE
+idLoan NOT IN (SELECT Loan_idLoan FROM LoanReturn) Group by title));SELECT idItem, title, isbn, publisher, actualStock_ as numberInStock
+FROM Item
+WHERE title = title_;
+END$$
+DELIMITER ;
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+USE `D0005N`;
+DELIMITER $$
+USE `D0005N`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `D0005N`.`CheckUserLoanRestriction`
+BEFORE INSERT ON `D0005N`.`Loan`
+FOR EACH ROW
+BEGIN
+DECLARE currentLoanStatus_ int;
+DECLARE userType_ varchar(30);
+ SET currentLoanStatus_ = (SELECT COUNT(*) FROM Loan WHERE User_idUser =
+new.User_idUser);
+ SET userType_ = (SELECT UserType_idUserType FROM User WHERE idUser =
+new.User_idUser);
+ IF userType_ = 1113 AND currentLoanStatus_ >= 20 THEN
+ SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You already have 20 active loans.';
+ ELSEIF userType_ = 1114 AND currentLoanStatus_ >= 20 THEN
+ SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You already have 20 active loans.';
+ ELSEIF userType_ = 1115 AND currentLoanStatus_ >= 20 THEN
+ SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You already have 20 active loans.';
+ ELSEIF userType_ = 1112 AND currentLoanStatus_ >= 10 THEN
+ SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You already have 10 active loans.';
+ ELSEIF userType_ = 1111 AND currentLoanStatus_ >= 5 THEN
+ SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You already have 5 active loans.';
+ END IF;
+END$$
+USE `D0005N`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `D0005N`.`ExpiryDateCreator`
+BEFORE INSERT ON `D0005N`.`Loan`
+FOR EACH ROW
+BEGIN
+DECLARE category_ varchar(30);
+DECLARE barcode_ int;
+ SET category_ = (SELECT category FROM inventory where idBarcode =
+new.Inventory_idBarcode);
+ IF category_ = 'Standard' THEN
+ Set new.loanDate = now(),
+new.expiryDate = DATE_ADD(curdate(), INTERVAL 60 DAY);
+ ELSEIF category_ = 'Course literature' THEN
+ Set new.loanDate = curdate(),
+ new.expiryDate = DATE_ADD(curdate(), INTERVAL 30 DAY);
+ ELSEIF category_ = 'DVD' THEN
+ Set new.loanDate = now(),
+ new.expiryDate = DATE_ADD(curdate(), INTERVAL 14 DAY);
+ ELSEIF category_ = 'Reference' THEN
+ SIGNAL SQLSTATE '45000'SET MESSAGE_TEXT = 'Reference literature is unavailable to
+loan.';
+ END IF;
+END$$
+DELIMITER ;
