@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS `D0005N`.`Userstatus` (
 ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `D0005N`.`User`
-32
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `D0005N`.`User` (
  `idUser` INT NOT NULL,
