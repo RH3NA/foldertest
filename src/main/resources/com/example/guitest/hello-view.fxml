@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="405.0" prefWidth="384.0" spacing="20.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.guitest.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-   <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0">
-     <content>
-       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-     </content>
-   </ScrollPane>
-   <ButtonBar prefHeight="40.0" prefWidth="200.0">
-     <buttons>
-       <Button fx:id="sokButton" mnemonicParsing="false" onAction="#onSokButtonClick" text="Sök" />
-     </buttons>
-   </ButtonBar>
-   <ButtonBar prefHeight="40.0" prefWidth="200.0">
-     <buttons>
-       <Button fx:id="lanButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onLanButtonClick" text="Lån" />
-     </buttons>
-   </ButtonBar>
-    <Button fx:id="exitButton" alignment="BOTTOM_CENTER" onAction="#onExitButtonClick" text="Avsluta" />
-   <TextArea fx:id="resultText" prefHeight="87.0" prefWidth="344.0" />
-</VBox>
+
+<BorderPane accessibleRole="HYPERLINK" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #0B0B45;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
+   <top>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="161.0" fitWidth="171.0" layoutX="14.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../GUILOGO.jpeg" />
+               </image>
+            </ImageView>
+            <TextField fx:id="usernameInput" layoutX="312.0" layoutY="138.0" promptText="E-Mail" />
+            <TextField layoutX="314.0" layoutY="186.0" promptText="User-ID" />
+            <Label layoutX="233.0" layoutY="142.0" text="Username" textFill="#00f200" />
+            <Label layoutX="236.0" layoutY="190.0" text="Password" textFill="#00f200" />
+            <Button layoutX="499.0" layoutY="161.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="62.0" style="-fx-background-color: #39FF14#39FF14;" text="Log in">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Button>
+            <Label layoutX="319.0" layoutY="232.0" text="New User?" textFill="#00f200" />
+            <Label accessibleRole="HYPERLINK" layoutX="390.0" layoutY="232.0" prefHeight="17.0" prefWidth="53.0" text="Register" textFill="#03f000" />
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>
